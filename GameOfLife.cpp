@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <fstream>
-#include <string>
+#include <cstring>
 #include <sstream>
 #include <ctime>
 
@@ -14,7 +14,6 @@ const int x_move[DIRECTION] = {-1, 0, 1, 1, 1, 0, -1, -1};
 const int y_move[DIRECTION] = {1, 1, 1, 0, -1, -1, -1, 0};
 void showWorld(char world[SIZE+1][SIZE+1]);
 void activate(char world[SIZE+1][SIZE+1]);
-//void clearScreen(void);
 
 int main(){
     
@@ -83,37 +82,38 @@ int main(){
         turn2++;
         showWorld(world);
         activate(world);
-        system("CLS");
-        usleep(1000000); // 1 sec
+        usleep(500000); // 1 sec
+        //system("CLS"); // for WINDOWS 10
+        //system("clear"); // for ubuntu
         //clearScreen();
 	}
   
 }
-/*
-void clearScreen(void) {
-    // Tested and working on Ubuntu and Cygwin
-    #if defined(_WIN32) || defined(WIN32) || defined(__MINGW32__) || defined(__BORLANDC__)
-        #define OS_WIN
-    #endif
-  
-    #ifdef OS_WIN
-        system("CLS");
-    #endif
-
-    #if defined(linux) || defined(__CYGWIN__)
-        system("clear");
-    #endif
-}*/
 
 void showWorld(char world[SIZE+1][SIZE+1]){
+
+	// print border
+	for(int i=0; i<SIZE+1; i++){
+		cout << "--";
+	}
+	cout << endl;
+
+	/* print World */
     for(int i = 1; i < SIZE; i++)
     {
+    	cout <<"| ";
         for(int j = 1; j < SIZE; j++)
         {
             cout << world[i][j] << " ";
         }
-        cout << endl;
+        cout <<" |"<< endl;
     }
+
+    // print border
+    for(int i=0; i<SIZE+1; i++){
+		cout << "--";
+	}
+	cout << endl;
 }
 
 void activate(char world[SIZE+1][SIZE+1]){
@@ -133,26 +133,26 @@ void activate(char world[SIZE+1][SIZE+1]){
 
             /* patient or people case */
             if(world[i][j] == 'X' || world[i][j] == ' '){
-                /* 群聚感染 */
+                /* Cluster infection */
                 if(patient_cnt >= 5){
                 	int infected = rand() % 4;
                     for(int n = 0; n < infected; n++)
                     {
                     	int d = rand() % 7; // give random direction
-                        world[i + x_move[d]][j + y_move[d]] = 'X'; // 隨機感染
+                        world[i + x_move[d]][j + y_move[d]] = 'X'; // random infection
                     }
                 }
             }
             /* Doctor case */
             else{
-                /* 醫治病人 */
+                /* Healing patient(s) */
                 if(patient_cnt < 4){
                     for(int d = 0; d < DIRECTION; d++)
                     {
-                        world[i + x_move[d]][j + y_move[d]] = ' '; // 全部變正常人
+                        world[i + x_move[d]][j + y_move[d]] = ' '; // become normal people
                     }
                 }
-                /*  醫生過勞死 退休 */
+                /* Doctor Overworked or retired */
                 else{
                     world[i][j] = ' ';
                 }
