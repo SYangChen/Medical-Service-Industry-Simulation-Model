@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+import time
 
 
 ### initialization ###
@@ -28,7 +29,7 @@ canvas.pack()
 
 def main():
 
-	### initialize world: all people are normal ###
+	### inpackitialize world: all people are normal ###
 	world = [[' ' for j in range(Wnum)] for i in range(Hnum)]
 	turn = 0
 
@@ -39,13 +40,14 @@ def main():
 
 		showWorld(world)
 		canvas.pack()
-		window.mainloop()
+		canvas.update()
 		turn += 1
+		time.sleep(1)
 
 def generate(world, turn):
 
 	### randomly generate patient ###
-	num_Patient = random.randint(1,10)
+	num_Patient = random.randint(1,20)
 	patient_cntr = 0
 	while(patient_cntr < num_Patient):
 		x = random.randint(0, Hnum-1)
@@ -58,7 +60,7 @@ def generate(world, turn):
 
 	### randomly generate patient every third turn ###
 	if(turn % 3 == 0):
-		turn = 0;
+		turn = 0
 		number_Doctor = random.randint(1,4) # 1~4
 		doctor_cntr = 0;
 		while(doctor_cntr < number_Doctor):
@@ -96,17 +98,13 @@ def showWorld(world):
 		x %= W
 
 	### show on terminal ###
-	print("--"*50)
+	print("--"*62)
 	for i in range(Hnum):
-		if( i != 0 and i != Hnum-1):
-			print("|", end = "")
+		print("|", end = "")
 		for j in range(Wnum):
 			print(world[i][j], end="")
-		if( i != 0 and i != Hnum-1):
-			print(" |")
-	print("--"*50)
-
-	canvas.pack()
+		print(" |")
+	print("--"*62, end = "\n")
 
 def countPeople(world):
 	normal = 0  # number of normal
