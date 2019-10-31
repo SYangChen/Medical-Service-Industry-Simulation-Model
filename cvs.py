@@ -29,7 +29,7 @@ canvas.pack()
 def main():
 
 	### initialize world: all people are normal ###
-	world = [[' ' for j in range(Hnum)] for i in range(Wnum)]
+	world = [[' ' for j in range(Wnum)] for i in range(Hnum)]
 	turn = 0
 
 	### start life game ###
@@ -48,8 +48,8 @@ def generate(world, turn):
 	num_Patient = random.randint(1,10)
 	patient_cntr = 0
 	while(patient_cntr < num_Patient):
-		x = random.randint(0, Wnum-1)
-		y = random.randint(0, Hnum-1)
+		x = random.randint(0, Hnum-1)
+		y = random.randint(0, Wnum-1)
 		if( world[x][y] == ' ' or world[x][y] == '+'):
 			world[x][y] = 'X'
 			patient_cntr += 1
@@ -62,8 +62,8 @@ def generate(world, turn):
 		number_Doctor = random.randint(1,4) # 1~4
 		doctor_cntr = 0;
 		while(doctor_cntr < number_Doctor):
-			x = random.randint(0, Wnum-1)
-			y = random.randint(0, Hnum-1)
+			x = random.randint(0, Hnum-1)
+			y = random.randint(0, Wnum-1)
 			world[x][y] = '+'
 			doctor_cntr += 1
 
@@ -71,8 +71,8 @@ def generate(world, turn):
 	heal_cntr = 0
 	number_selfhealed = random.randint(1, 4)
 	while(heal_cntr < number_selfhealed):
-		x = random.randint(0, Wnum-1)
-		y = random.randint(0, Hnum-1)
+		x = random.randint(0, Hnum-1)
+		y = random.randint(0, Wnum-1)
 		if(world[x][y] == 'X'):
 			world[x][y] = ' '
 			heal_cntr += 1
@@ -80,17 +80,31 @@ def generate(world, turn):
 	return world
 
 def showWorld(world):
+
+	### draw canvas ###
 	x,y = 0,0
 	for i in range(Hnum):
-		for j in world[i]:
-			if(j == ' '):
+		y = d * i
+		for j in range(Wnum):
+			x = d * j
+			if(world[i][j] == ' '):
 				canvas.create_oval(x, y, x+d, y+d, fill='white')
-			elif(j == '+'):
+			elif(world[i][j] == '+'):
 				canvas.create_oval(x, y, x+d, y+d, fill='red')
 			else:
 				canvas.create_oval(x, y, x+d, y+d, fill='blue')
-			x+=d
-		y+=d
+		x %= W
+
+	### show on terminal ###
+	print("--"*50)
+	for i in range(Hnum):
+		if( i != 0 and i != Hnum-1):
+			print("|", end = "")
+		for j in range(Wnum):
+			print(world[i][j], end="")
+		if( i != 0 and i != Hnum-1):
+			print(" |")
+	print("--"*50)
 
 	canvas.pack()
 
@@ -125,8 +139,8 @@ def rule(world):
 				doctor_cntr += 1
 
 
-	for i in range(Wnum):
-		for j in range(Hnum):
+	for i in range(Hnum):
+		for j in range(Wnum):
 	 	### count patient ###
 			patient_cntr = 0
 			for d in range(DIRECTION):
@@ -161,9 +175,9 @@ def rule(world):
 	return world
 
 def overBorder(xIndex, yIndex):
-	if(xIndex < 0 or xIndex >= Wnum):
+	if(xIndex < 0 or xIndex >= Hnum):
 		return True
-	if(yIndex < 0 or yIndex >= Hnum):
+	if(yIndex < 0 or yIndex >= Wnum):
 		return True
 	return False
 
