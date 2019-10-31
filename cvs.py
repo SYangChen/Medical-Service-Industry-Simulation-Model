@@ -43,6 +43,7 @@ def main():
 		turn += 1
 
 def generate(world, turn):
+
 	### randomly generate patient ###
 	num_Patient = random.randint(1,10)
 	patient_cntr = 0
@@ -65,6 +66,16 @@ def generate(world, turn):
 			y = random.randint(0, Hnum-1)
 			world[x][y] = '+'
 			doctor_cntr += 1
+
+	### Every turn Patient may be Self-healed ###
+	heal_cntr = 0
+	number_selfhealed = random.randint(1, 4)
+	while(heal_cntr < number_selfhealed):
+		x = random.randint(0, Wnum-1)
+		y = random.randint(0, Hnum-1)
+		if(world[x][y] == 'X'):
+			world[x][y] = ' '
+			heal_cntr += 1
 
 	return world
 
@@ -100,7 +111,19 @@ def countPeople(world):
 	return {'normal':normal, 'doctor':doctor, 'patient':patient}
 
 def rule(world):
-	count = countPeople(world)
+	c = countPeople(world)
+
+	### Doctor is oversupply ###
+	if( (c['patient'] != 0) and (c['doctor'] / c['patient']) > 3 ):
+		number_Doctor = random.randint(1, 3) # retire
+		doctor_cntr = 0
+		while(doctor_cntr < number_Doctor):
+			x = random.randint(0, Wnum-1)
+			y = random.randint(0, Hnum-1)
+			if(world[x][y] == '+'):
+				world[x][y] = ' '
+				doctor_cntr += 1
+
 
 	for i in range(Wnum):
 		for j in range(Hnum):
