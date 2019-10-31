@@ -36,7 +36,7 @@ int main(){
 	    int doctor_cntr = 0;
 	    int heal_cntr = 0;
 	    
-	    number_Patient = rand() % 10; // 21~40
+	    number_Patient = rand() % 10; // 0~10
 		while(patient_cntr < number_Patient){
 	        x = rand() % SIZE + 1;
 	        y = rand() % SIZE + 1;
@@ -103,7 +103,7 @@ int main(){
         turn++;
         showWorld(world);
         activate(world);
-        usleep(10000); // 1 sec
+        usleep(1000000); // 1 sec
 	}
     return 0;
 }
