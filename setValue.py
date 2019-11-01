@@ -4,13 +4,18 @@ d = 20 # rectangle size
 W, H = 1200, 800; # weight, height
 Wnum, Hnum = int(W / d), int(H / d)
 
-speed = 10  # 1~10
-sleep_sec = 1 / (5 * speed)
+speed = 100  # 1~10
+sleep_sec = 1 / (100 * speed)
 hit = False
 
-DIRECTION = 8
-x_ele = [-1, 0, 1, 1, 1, 0, -1, -1]
-y_ele = [1, 1, 1, 0, -1, -1, -1, 0]
+
+Eight_DIRECTION = 8
+x8_ele = [-1, 0, 1, 1, 1, 0,-1,-1]
+y8_ele = [ 1, 1, 1, 0,-1,-1,-1, 0]
+
+DIRECTION = 12
+x_ele = [-1, 0, 0, 1, 1, 2, 1, 0, 0,-1,-1,-2]
+y_ele = [ 1, 1, 2, 1, 0, 0,-1,-1,-2,-1, 0, 0]
 
 world = []
 turn = 0

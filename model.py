@@ -5,7 +5,7 @@ from view import *
 def generate(world, turn):
 
 	### randomly generate patient ###
-	num_Patient = random.randint(1,15)
+	num_Patient = random.randint(1,10)
 	patient_cntr = 0
 	while(patient_cntr < num_Patient):
 		x = random.randint(0, Hnum-1)
@@ -72,7 +72,7 @@ def rule(world):
 				doctor_cntr += 1
 	
 	### Doctors and patients should be maintain balance
-	if(ratio >= 8):
+	if(ratio >= 10):
 		number_Doctor = random.randint(4, 10)
 		doctor_cntr = 0;
 		while(doctor_cntr < number_Doctor):
@@ -85,14 +85,14 @@ def rule(world):
 		for j in range(Wnum):
 	 	### count patient ###
 			patient_cntr = 0
-			for d in range(DIRECTION):
-				_x = i + x_ele[d]
-				_y = j + y_ele[d]
+			for d in range(Eight_DIRECTION):
+				_x = i + x8_ele[d]
+				_y = j + y8_ele[d]
 				if(not overBorder(_x,_y) and world[_x][_y] == 'X'):
 					patient_cntr += 1
 
 
-			### patient or people case ###
+			### patient case ###
 			if(world[i][j] == 'X'):
 				patient_cntr += 1
 				###  Cluster infection ###
@@ -100,12 +100,12 @@ def rule(world):
 					infected = random.randint(0,3)
 					for n in range(infected):
 						d = random.randint(0,7); # give random direction
-						if(not overBorder(i + x_ele[d],j + y_ele[d])):
-							world[i + x_ele[d]][j + y_ele[d]] = 'X'; # random infection
+						if(not overBorder(i + x8_ele[d],j + y8_ele[d])):
+							world[i + x8_ele[d]][j + y8_ele[d]] = 'X'; # random infection
 
 			### Doctor case ##
 			elif(world[i][j] == '+'):
-				### count patient in 8 direction ###
+				### count patient in 11 direction ###
 				patient_cntr = 0
 				for d in range(DIRECTION):
 					_x = i + x_ele[d]
@@ -114,10 +114,11 @@ def rule(world):
 						patient_cntr += 1
 
 				###  Healing patient(s) ###
-				###if(patient_cntr < 6):
 				for d in range(DIRECTION):
 					if(not overBorder(i + x_ele[d],j + y_ele[d])):
 						world[i + x_ele[d]][j + y_ele[d]] = ' ' # become normal people
+				
+				### doctor move ###
 				pos_i, pos_j = random.randint(-1,1), random.randint(-1,1)
 				if(not overBorder(i+pos_i, j+pos_j)):
 					world[i][j] = ' '
