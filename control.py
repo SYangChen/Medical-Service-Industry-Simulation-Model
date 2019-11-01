@@ -1,10 +1,10 @@
 from tkinter import *
+from setValue import *
 import random
 import time
 
-hit = False
 def speedCtrl():
-	global hit
+	global hit, speed
 	if hit == False:
 		hit = True
 		speed += 1

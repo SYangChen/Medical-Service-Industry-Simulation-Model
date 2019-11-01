@@ -1,18 +1,5 @@
-from myfunction import *
-
-
-### initialization ###
-
-d = 20 # rectangle size
-W, H = 1200, 800; # weight, height
-Wnum, Hnum = int(W / d), int(H / d)
-speed = 1
-sleep_sec = 1 / (5 * speed)
-DIRECTION = 8
-x_ele = [-1, 0, 1, 1, 1, 0, -1, -1]
-y_ele = [1, 1, 1, 0, -1, -1, -1, 0]
-world = []
-global turn
+from control import *
+from setValue import *
 
 ### window ###
 
@@ -32,8 +19,8 @@ canvas = Canvas(window, bg='white', height=H, width=W)
 canvas.pack()
 
 ### button ###
-speedUp_btn = Button(window, text='+', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1600, y=5)
-speedDwon_btn = Button(window, text='-', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1640, y=5)
+speedUp_btn = Button(window, text='+', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1650, y=5)
+speedDwon_btn = Button(window, text='-', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1690, y=5)
 
 def main():
 
@@ -42,16 +29,15 @@ def main():
 	turn = 0
 
 	### start life game ###
-	printInfo()
 	while(True):
+		printInfo(world)
 		world = generate(world, turn)
 		world = rule(world)
-
 		showWorld(world)
 		canvas.pack()
 		canvas.update()
 		turn += 1
-		time.sleep(sleep_sec)
+		time.sleep(1)
 
 def generate(world, turn):
 
@@ -90,10 +76,22 @@ def generate(world, turn):
 
 	return world
 
-def printInfo():
+def printInfo(world):
+	role = countPeople(world)
 	speed_Msg = "Speed : " + str(speed)
-	Label(window, text=speed_Msg, fg='black', font=('Arial', 12), width=8, height=2).place(x=1505,y=5)
-	#speedMsg.pack()
+	normal_Msg = "Normal : " + str(role['normal'])
+	doctor_Msg = "Doctor : " + str(role['doctor'])
+	infected_Msg = "Infected : " + str(role['patient'])
+
+	if(role['doctor'] != 0):
+		ratio = "病人/醫生比: " + format(role['patient'] / role['doctor'], '.2f')
+	else:
+		ratio = "病人/醫生比: 0"
+	Label(window, justify=LEFT, text=speed_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=10)	
+	Label(window, justify=LEFT, text=normal_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=100)
+	Label(window, justify=LEFT, text=doctor_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=140)
+	Label(window, justify=LEFT, text=infected_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=180)
+	Label(window, justify=LEFT, text=ratio, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=220)
 
 def showWorld(world):
 
@@ -131,15 +129,16 @@ def countPeople(world):
 	patient = 0 # number of patient
 
 	for i in range(Hnum):
-		for j in world[i]:
-			if(j == ' '):
+		for j in range(Wnum):
+			if(world[i][j] == ' '):
 				normal += 1
-			elif(j == 'X'):
+			elif(world[i][j] == 'X'):
 				patient += 1
-			elif(j == '+'):
+			elif(world[i][j] == '+'):
 				doctor += 1
 
 	return {'normal':normal, 'doctor':doctor, 'patient':patient}
+
 
 def rule(world):
 	c = countPeople(world)
@@ -211,6 +210,5 @@ def overBorder(xIndex, yIndex):
 	if(yIndex < 0 or yIndex >= Wnum):
 		return True
 	return False
-
 	
 main()
