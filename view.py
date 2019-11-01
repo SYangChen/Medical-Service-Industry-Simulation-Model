@@ -30,13 +30,13 @@ speed_Msg = StringVar()
 normal_Msg = StringVar()
 doctor_Msg = StringVar()
 infected_Msg = StringVar()
-ratio = StringVar()
+ratio_Msg = StringVar()
 
 speed_Msg.set("Speed : " + str(speed))
 normal_Msg.set("Normal : " + str(population['normal']))
 doctor_Msg.set("Doctor : " + str(population['doctor']))
 infected_Msg.set("Infected : " + str(population['patient']))
-ratio.set("病人/醫生比: 0")
+ratio_Msg.set("病人/醫生比: 0")
 
 color = 'green' # Label mark: green = normal, yellow = warning, red = danger
 
@@ -45,4 +45,4 @@ Label(window, text="***Infomation***", bg = 'black', fg='white', font=('Arial', 
 Label(window, textvariable=normal_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=100)
 Label(window, textvariable=doctor_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=140)
 Label(window, textvariable=infected_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=180)
-Label(window, textvariable=ratio, bg = color, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=220)
+Label(window, textvariable=ratio_Msg, bg = color, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=220)

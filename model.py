@@ -5,7 +5,7 @@ from view import *
 def generate(world, turn):
 
 	### randomly generate patient ###
-	num_Patient = random.randint(5,20)
+	num_Patient = random.randint(1,15)
 	patient_cntr = 0
 	while(patient_cntr < num_Patient):
 		x = random.randint(0, Hnum-1)
@@ -16,7 +16,7 @@ def generate(world, turn):
 		else:
 			continue
 
-	### randomly generate doctor every third turn ###
+	### randomly generate doctor every twice turn ###
 	if(turn % 2 == 0):
 		turn = 0
 		number_Doctor = random.randint(1, 5)
@@ -28,8 +28,9 @@ def generate(world, turn):
 			doctor_cntr += 1
 
 	### Every turn Patient may be Self-healed ###
+
 	heal_cntr = 0
-	number_selfhealed = random.randint(1, 4)
+	number_selfhealed = random.randint(0, int(self_healing_ratio*population['patient']))
 	while(heal_cntr < number_selfhealed):
 		x = random.randint(0, Hnum-1)
 		y = random.randint(0, Wnum-1)
@@ -70,7 +71,15 @@ def rule(world):
 				world[x][y] = ' '
 				doctor_cntr += 1
 	
-
+	### Doctors and patients should be maintain balance
+	if(ratio >= 8):
+		number_Doctor = random.randint(4, 10)
+		doctor_cntr = 0;
+		while(doctor_cntr < number_Doctor):
+			x = random.randint(0, Hnum-1)
+			y = random.randint(0, Wnum-1)
+			world[x][y] = '+'
+			doctor_cntr += 1
 
 	for i in range(Hnum):
 		for j in range(Wnum):
@@ -84,7 +93,8 @@ def rule(world):
 
 
 			### patient or people case ###
-			if(world[i][j] == 'X' or world[i][j] == ' '):
+			if(world[i][j] == 'X'):
+				patient_cntr += 1
 				###  Cluster infection ###
 				if(patient_cntr >= 5):
 					infected = random.randint(0,3)
@@ -94,7 +104,7 @@ def rule(world):
 							world[i + x_ele[d]][j + y_ele[d]] = 'X'; # random infection
 
 			### Doctor case ##
-			else:
+			elif(world[i][j] == '+'):
 				### count patient in 8 direction ###
 				patient_cntr = 0
 				for d in range(DIRECTION):
@@ -104,18 +114,18 @@ def rule(world):
 						patient_cntr += 1
 
 				###  Healing patient(s) ###
-				if(patient_cntr < 6):
-					for d in range(DIRECTION):
-						if(not overBorder(i + x_ele[d],j + y_ele[d])):
-							world[i + x_ele[d]][j + y_ele[d]] = ' ' # become normal people
-					pos_i, pos_j = random.randint(-1,1), random.randint(-1,1)
-					if(not overBorder(i+pos_i, j+pos_j)):
-						world[i][j] = ' '
-						world[i+pos_i][j+pos_j] = '+'
+				###if(patient_cntr < 6):
+				for d in range(DIRECTION):
+					if(not overBorder(i + x_ele[d],j + y_ele[d])):
+						world[i + x_ele[d]][j + y_ele[d]] = ' ' # become normal people
+				pos_i, pos_j = random.randint(-1,1), random.randint(-1,1)
+				if(not overBorder(i+pos_i, j+pos_j)):
+					world[i][j] = ' '
+					world[i+pos_i][j+pos_j] = '+'
 
 				### Doctor Overworked or retired ###
-				else:
-					world[i][j] = ' '
+				#else:
+				#	world[i][j] = ' '
 
 	return world
 

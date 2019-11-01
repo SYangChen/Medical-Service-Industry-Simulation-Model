@@ -23,8 +23,8 @@ def main():
 		time.sleep(1)
 
 def printInfo(world):
-	global population, color
-	global speed_Msg, normal_Msg, doctor_Msg, infected_Msg, ratio
+	global population, color, ratio
+	global speed_Msg, normal_Msg, doctor_Msg, infected_Msg, ratio_Msg
 
 	### Infomation ###
 	speed_Msg.set("Speed : " + str(speed))
@@ -34,12 +34,12 @@ def printInfo(world):
 
 	change = False
 	if(population['doctor'] != 0):
-		r = population['patient'] / population['doctor']
-		if(r <= 7.0):
+		ratio = population['patient'] / population['doctor']
+		if(ratio <= 7.0):
 			if( color != 'green'):
 				change = True
 				color = 'green'
-		elif(r > 7.0 and r <= 15.0):
+		elif(ratio > 7.0 and ratio <= 15.0):
 			if( color != 'yellow'):
 				change = True
 				color = 'yellow'
@@ -50,8 +50,8 @@ def printInfo(world):
 			color = 'red'
 
 		if(change):
-			Label(window, textvariable=ratio, bg = color, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=220)
+			Label(window, textvariable=ratio_Msg, bg = color, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=220)
 
-		ratio.set("病人/醫生比: " + format(r, '.2f'))
+		ratio_Msg.set("病人/醫生比: " + format(ratio, '.2f'))
 
 main()
