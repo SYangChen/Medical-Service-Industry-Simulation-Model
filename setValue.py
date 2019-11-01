@@ -15,4 +15,5 @@ y_ele = [1, 1, 1, 0, -1, -1, -1, 0]
 world = []
 turn = 0
 
+population = {'normal':0, 'doctor':0, 'patient':0}
 ratio = 0 # 病人/醫生比

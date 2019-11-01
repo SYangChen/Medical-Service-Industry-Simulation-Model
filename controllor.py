@@ -1,4 +1,3 @@
-from tkinter import *
 from setValue import *
 import random
 import time

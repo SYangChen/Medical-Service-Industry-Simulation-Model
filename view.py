@@ -22,3 +22,6 @@ canvas.pack()
 ### button ###
 speedUp_btn = Button(window, text='+', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1650, y=5)
 speedDwon_btn = Button(window, text='-', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1690, y=5)
+
+
+### Infomation Lable ###
