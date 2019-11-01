@@ -7,7 +7,8 @@ def speedCtrl():
 	if hit == False:
 		hit = True
 		speed += 1
-		#var.set('10')
+		speed_Msg.set("Speed : " + str(speed))
 	else:
 		hit = False
-		#var.set('')
+		speed -= 1
+		speed_Msg.set("Speed : " + str(speed))

@@ -23,24 +23,35 @@ def main():
 		time.sleep(1)
 
 def printInfo(world):
-	global population
+	global population, color
+	global speed_Msg, normal_Msg, doctor_Msg, infected_Msg, ratio
 
 	### Infomation ###
-	speed_Msg = "Speed : " + str(speed)
-	normal_Msg = "Normal : " + str(population['normal'])
-	doctor_Msg = "Doctor : " + str(population['doctor'])
-	infected_Msg = "Infected : " + str(population['patient'])
+	speed_Msg.set("Speed : " + str(speed))
+	normal_Msg.set("Normal : " + str(population['normal']))
+	doctor_Msg.set("Doctor : " + str(population['doctor']))
+	infected_Msg.set("Infected : " + str(population['patient']))
 
+	change = False
 	if(population['doctor'] != 0):
-		ratio = "病人/醫生比: " + format(population['patient'] / population['doctor'], '.2f')
-	else:
-		ratio = "病人/醫生比: 0"
+		r = population['patient'] / population['doctor']
+		if(r <= 7.0):
+			if( color != 'green'):
+				change = True
+				color = 'green'
+		elif(r > 7.0 and r <= 15.0):
+			if( color != 'yellow'):
+				change = True
+				color = 'yellow'
+		else:
+			if( color != 'red'):
+				color = 'red'
+				change = True
+			color = 'red'
 
-	Label(window, justify=LEFT, textvariable=speed_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=10)	
-	Label(window, justify=LEFT, text=normal_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=100)
-	Label(window, justify=LEFT, text=doctor_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=140)
-	Label(window, justify=LEFT, text=infected_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=180)
-	Label(window, justify=LEFT, text=ratio, fg='black', font=('Arial', 12), width=15, height=2).place(x=1505,y=220)
+		if(change):
+			Label(window, textvariable=ratio, bg = color, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=220)
 
+		ratio.set("病人/醫生比: " + format(r, '.2f'))
 
 main()
