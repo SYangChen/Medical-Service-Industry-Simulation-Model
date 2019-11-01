@@ -1,6 +1,4 @@
-from tkinter import *
-import random
-import time
+from myfunction import *
 
 
 ### initialization ###
@@ -8,7 +6,8 @@ import time
 d = 20 # rectangle size
 W, H = 1200, 800; # weight, height
 Wnum, Hnum = int(W / d), int(H / d)
-sleep_sec = 0.001
+speed = 1
+sleep_sec = 1 / (5 * speed)
 DIRECTION = 8
 x_ele = [-1, 0, 1, 1, 1, 0, -1, -1]
 y_ele = [1, 1, 1, 0, -1, -1, -1, 0]
@@ -19,17 +18,22 @@ global turn
 
 window = Tk()
 window.title('group2_project')
-window.geometry(str(W)+'x'+str(H)) # '1200x800'
-#window.resizable(0,0) # fixed window size
+window.geometry('1800x1000')
+#window.geometry(str(W)+'x'+str(H)) # '1200x800'
+window.resizable(0,0) # fixed window size
 
 ### load image ###
 normal_img = PhotoImage(file='./img/20x20/healthy.png')
-infected_img = PhotoImage(file='./img/20x20/blackVrs.png')
-doctor_img = PhotoImage(file='./img/20x20/syringe.png')
+infected_img = PhotoImage(file='./img/20x20/evil.png')
+doctor_img = PhotoImage(file='./img/20x20/doctor-bag.png')
 
 ### canvas ###
 canvas = Canvas(window, bg='white', height=H, width=W)
 canvas.pack()
+
+### button ###
+speedUp_btn = Button(window, text='+', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1600, y=5)
+speedDwon_btn = Button(window, text='-', font=('Arial', 12), width=1, height=1, command=speedCtrl).place(x=1640, y=5)
 
 def main():
 
@@ -38,7 +42,7 @@ def main():
 	turn = 0
 
 	### start life game ###
-	printMsg()
+	printInfo()
 	while(True):
 		world = generate(world, turn)
 		world = rule(world)
@@ -47,7 +51,7 @@ def main():
 		canvas.pack()
 		canvas.update()
 		turn += 1
-		#time.sleep(sleep_sec)
+		time.sleep(sleep_sec)
 
 def generate(world, turn):
 
@@ -86,13 +90,10 @@ def generate(world, turn):
 
 	return world
 
-def printMsg():
-	msg = Label(window, text="Hello World!", bg='purple', fg='white', font=('Arial', 12), width=30, height=2)
-	# 說明： bg為背景，fg為字型顏色，font為字型，width為長，height為高，這裡的長和高是字元的長和高，比如height=2,就是標籤有2個字元這麼高
-	msg.pack()
-
-	btn = Button(window, text='start', font=('Arial', 12), width=10, height=1)
-	btn.pack()
+def printInfo():
+	speed_Msg = "Speed : " + str(speed)
+	Label(window, text=speed_Msg, fg='black', font=('Arial', 12), width=8, height=2).place(x=1505,y=5)
+	#speedMsg.pack()
 
 def showWorld(world):
 
@@ -103,8 +104,8 @@ def showWorld(world):
 		for j in range(Wnum):
 			x = d * j
 			if(world[i][j] == ' '):
-				#canvas.create_rectangle(x, y, x+d, y+d, fill='white')
-				canvas.create_image(x, y, anchor='nw', image=normal_img)
+				canvas.create_rectangle(x, y, x+d, y+d, fill='white')
+				#canvas.create_image(x, y, anchor='nw', image=normal_img)
 			elif(world[i][j] == '+'):
 				#canvas.create_rectangle(x, y, x+d, y+d, fill='red')
 				canvas.create_image(x, y, anchor='nw', image=doctor_img)
@@ -144,7 +145,7 @@ def rule(world):
 	c = countPeople(world)
 
 	### Doctor is oversupply ###
-	"""
+	
 	if( (c['patient'] != 0) and (c['doctor'] / c['patient']) > 3 ):
 		number_Doctor = random.randint(1, 3) # retire
 		doctor_cntr = 0
@@ -154,7 +155,7 @@ def rule(world):
 			if(world[x][y] == '+'):
 				world[x][y] = ' '
 				doctor_cntr += 1
-	"""
+	
 
 
 	for i in range(Hnum):
