@@ -11,7 +11,8 @@ hit = False
 DIRECTION = 8
 x_ele = [-1, 0, 1, 1, 1, 0, -1, -1]
 y_ele = [1, 1, 1, 0, -1, -1, -1, 0]
+
 world = []
-global turn
+turn = 0
 
 ratio = 0 # 病人/醫生比
