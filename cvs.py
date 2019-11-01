@@ -8,6 +8,7 @@ import time
 d = 10 # diameter
 W = 1200;	  H = 800 # weight, height
 Wnum = int(W / d);  Hnum = int(H / d)
+sleep_sec = 0.001
 DIRECTION = 8
 x_mv = [-d, 0, d, d, d, 0, -d, -d]
 y_mv = [d, d, d, 0, -d, -d, -d, 0]
@@ -24,7 +25,7 @@ window.geometry(str(W)+'x'+str(H)) # '1200x800'
 #window.resizable(0,0) # fixed window size
 
 ### canvas ###
-canvas = Canvas(window, bg='black', height=800, width=800)
+canvas = Canvas(window, bg='white', height=800, width=800)
 canvas.pack()
 
 def main():
@@ -42,12 +43,12 @@ def main():
 		canvas.pack()
 		canvas.update()
 		turn += 1
-		time.sleep(1)
+		#time.sleep(sleep_sec)
 
 def generate(world, turn):
 
 	### randomly generate patient ###
-	num_Patient = random.randint(1,20)
+	num_Patient = random.randint(10,20)
 	patient_cntr = 0
 	while(patient_cntr < num_Patient):
 		x = random.randint(0, Hnum-1)
@@ -161,11 +162,15 @@ def rule(world):
 			### Doctor case ##
 			else:
 				###  Healing patient(s) ###
-				if(patient_cntr < 4):
+				if(patient_cntr < 6):
 					for d in range(DIRECTION):
 						if(not overBorder(i + x_ele[d],j + y_ele[d])):
 							world[i + x_ele[d]][j + y_ele[d]] = ' ' # become normal people
-
+					pos_i, pos_j = random.randint(-1,1), random.randint(-1,1)
+					if(not overBorder(i+pos_i, j+pos_j)):
+						world[i][j] = ' '
+						i, j = i+pos_i, j+pos_j
+						world[i][j] = '+'
 				### Doctor Overworked or retired ###
 				else:
 					world[i][j] = ' '
