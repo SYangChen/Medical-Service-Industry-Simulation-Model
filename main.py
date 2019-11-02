@@ -5,7 +5,7 @@ from model import *
 
 def main():
 
-	global population, turn
+	global population, turn, restart
 
 	### inpackitialize world: all people are normal ###
 	world = [[' ' for j in range(Wnum)] for i in range(Hnum)]
@@ -16,12 +16,12 @@ def main():
 		population = countPeople(world)
 		world = rule(world)
 
-		if(turn > 10 and (ratio >= 180.0 or population['doctor'] <= 5)):
+		if(turn > 10 and (ratio >= 250.0 or population['doctor'] <= 5)):
 			s = "{:6} {:<6} {:<7} {:<8} {:<6}\n"
 			f = open("result.txt", 'a')
 			f.write(s.format(str(turn), str(population['normal']), str(population['doctor']), str(population['patient']), format(ratio, '.2f')))
 			f.close()
-			#Label(window, text="Restart!!!", bg = 'Red', fg='white', font=('Arial', 14), width=15, height=2).place(x=1550,y=300)
+			#restart = Label(window, text="Restart!!!", bg = 'Red', fg='white', font=('Arial', 14), width=15, height=2).place(x=1550,y=300)
 			#time.sleep(5)
 			#init()
 

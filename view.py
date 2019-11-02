@@ -46,3 +46,42 @@ Label(window, textvariable=normal_Msg, fg='black', font=('Arial', 12), width=15,
 Label(window, textvariable=doctor_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=140)
 Label(window, textvariable=infected_Msg, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=180)
 Label(window, textvariable=ratio_Msg, bg = color, fg='black', font=('Arial', 12), width=15, height=2).place(x=1550,y=220)
+
+wolrd_cvs = []
+x,y = 0,0
+for i in range(Hnum):
+	y = d * i
+	temp = []
+	for j in range(Wnum):
+		x = d * j
+		temp.append(canvas.create_rectangle(x, y, x+d, y+d, fill='white'))
+	wolrd_cvs.append(temp)
+
+#restart = Label(window)
+
+def init():
+	global canvas, wolrd_cvs, restart
+	global population, color, ratio
+	global speed_Msg, normal_Msg, doctor_Msg, infected_Msg, ratio_Msg 
+	
+	### clear all canvas object
+	for i in range(Hnum):
+		for j in range(Wnum):
+			canvas.delete(wolrd_cvs[i][j])
+
+	#canvas.delete(restart)
+	wolrd_cvs.clear()
+
+	canvas = Canvas(window, bg='white', height=H, width=W)
+	canvas.pack()
+
+	population['normal'] = 0
+	population['doctor'] = 0
+	population['patient'] = 0
+
+	color = 'green'
+	normal_Msg.set("Normal : " + str(population['normal']))
+	doctor_Msg.set("Doctor : " + str(population['doctor']))
+	infected_Msg.set("Infected : " + str(population['patient']))
+	ratio = 1 # patient / doctor
+	turn = 0

@@ -4,7 +4,7 @@ d = 20 # rectangle size
 W, H = 1200, 800; # weight, height
 Wnum, Hnum = int(W / d), int(H / d)
 
-speed = 100  # 1~10
+speed = 10000  # 1~10
 sleep_sec = 1 / (100 * speed)
 hit = False
 
@@ -24,4 +24,4 @@ population = {'normal':0, 'doctor':0, 'patient':0}
 ratio = 1 # patient / doctor
 
 ### probability ###
-self_healing_ratio = 0.2
+self_healing_ratio = 0.4

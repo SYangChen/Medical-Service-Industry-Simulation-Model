@@ -3,39 +3,42 @@ from setValue import *
 from view import *
 
 def generate(world, turn):
+	global wolrd_cvs
 
 	### randomly generate patient ###
-	num_Patient = random.randint(1,10)
+	num_Patient = random.randint(10,15)
 	patient_cntr = 0
 	while(patient_cntr < num_Patient):
 		x = random.randint(0, Hnum-1)
 		y = random.randint(0, Wnum-1)
 		if( world[x][y] == ' ' or world[x][y] == '+'):
 			world[x][y] = 'X'
+			canvas.delete(wolrd_cvs[x][y])
 			patient_cntr += 1
 		else:
 			continue
 
-	### randomly generate doctor every twice turn ###
-	if(turn % 2 == 0):
-		turn = 0
-		number_Doctor = random.randint(1, 5)
-		doctor_cntr = 0;
-		while(doctor_cntr < number_Doctor):
-			x = random.randint(0, Hnum-1)
-			y = random.randint(0, Wnum-1)
-			world[x][y] = '+'
-			doctor_cntr += 1
+	### randomly generate doctor every turn ###
+	number_Doctor = random.randint(2, 6) # 3.76
+	doctor_cntr = 0;
+	while(doctor_cntr < number_Doctor):
+		x = random.randint(0, Hnum-1)
+		y = random.randint(0, Wnum-1)
+		world[x][y] = '+'
+		canvas.delete(wolrd_cvs[x][y])
+		doctor_cntr += 1
 
 	### Every turn Patient may be Self-healed ###
 
 	heal_cntr = 0
-	number_selfhealed = random.randint(0, int(self_healing_ratio*population['patient']))
+	#number_selfhealed = random.randint(0, int(self_healing_ratio*population['patient']))
+	number_selfhealed = self_healing_ratio*population['patient']
 	while(heal_cntr < number_selfhealed):
 		x = random.randint(0, Hnum-1)
 		y = random.randint(0, Wnum-1)
 		if(world[x][y] == 'X'):
 			world[x][y] = ' '
+			canvas.delete(wolrd_cvs[x][y])
 			heal_cntr += 1
 
 	return world
@@ -61,7 +64,7 @@ def rule(world):
 	global population
 	### Doctor is oversupply ###
 	
-	if( (population['patient'] != 0) and (population['doctor'] / population['patient']) > 3 ):
+	if( (population['patient'] != 0) and (population['doctor'] / population['patient']) > 12 ):
 		number_Doctor = random.randint(1, 3) # retire
 		doctor_cntr = 0
 		while(doctor_cntr < number_Doctor):
@@ -69,16 +72,18 @@ def rule(world):
 			y = random.randint(0, Hnum-1)
 			if(world[x][y] == '+'):
 				world[x][y] = ' '
+				canvas.delete(wolrd_cvs[x][y])
 				doctor_cntr += 1
 	
 	### Doctors and patients should be maintain balance
-	if(ratio >= 10):
-		number_Doctor = random.randint(4, 10)
+	if(ratio >= 9): # 9.289
+		number_Doctor = random.randint(0, 3) # 3.76
 		doctor_cntr = 0;
 		while(doctor_cntr < number_Doctor):
 			x = random.randint(0, Hnum-1)
 			y = random.randint(0, Wnum-1)
 			world[x][y] = '+'
+			canvas.delete(wolrd_cvs[x][y])
 			doctor_cntr += 1
 
 	for i in range(Hnum):
@@ -102,7 +107,7 @@ def rule(world):
 						d = random.randint(0,7); # give random direction
 						if(not overBorder(i + x8_ele[d],j + y8_ele[d])):
 							world[i + x8_ele[d]][j + y8_ele[d]] = 'X'; # random infection
-
+							canvas.delete(wolrd_cvs[i + x8_ele[d]][j + y8_ele[d]])
 			### Doctor case ##
 			elif(world[i][j] == '+'):
 				### count patient in 11 direction ###
@@ -117,11 +122,12 @@ def rule(world):
 				for d in range(DIRECTION):
 					if(not overBorder(i + x_ele[d],j + y_ele[d])):
 						world[i + x_ele[d]][j + y_ele[d]] = ' ' # become normal people
-				
+						canvas.delete(wolrd_cvs[i + x_ele[d]][j + y_ele[d]])
 				### doctor move ###
 				pos_i, pos_j = random.randint(-1,1), random.randint(-1,1)
 				if(not overBorder(i+pos_i, j+pos_j)):
 					world[i][j] = ' '
+					canvas.delete(wolrd_cvs[i][j])
 					world[i+pos_i][j+pos_j] = '+'
 
 				### Doctor Overworked or retired ###
@@ -145,15 +151,16 @@ def showWorld(world):
 		y = d * i
 		for j in range(Wnum):
 			x = d * j
+			#canvas.delete(wolrd_cvs[i][j])
 			if(world[i][j] == ' '):
-				canvas.create_rectangle(x, y, x+d, y+d, fill='white')
+				wolrd_cvs[i][j] = canvas.create_rectangle(x, y, x+d, y+d, fill='white')
 				#canvas.create_image(x, y, anchor='nw', image=normal_img)
 			elif(world[i][j] == '+'):
 				#canvas.create_rectangle(x, y, x+d, y+d, fill='red')
-				canvas.create_image(x, y, anchor='nw', image=doctor_img)
+				wolrd_cvs[i][j] = canvas.create_image(x, y, anchor='nw', image=doctor_img)
 			else:
 				#canvas.create_rectangle(x, y, x+d, y+d, fill='blue')
-				canvas.create_image(x, y, anchor='nw', image=infected_img)
+				wolrd_cvs[i][j] = canvas.create_image(x, y, anchor='nw', image=infected_img)
 		x %= W
 
 	### show on terminal ###
