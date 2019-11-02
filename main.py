@@ -15,6 +15,16 @@ def main():
 		world = generate(world, turn)
 		population = countPeople(world)
 		world = rule(world)
+
+		if(turn > 10 and (ratio >= 180.0 or population['doctor'] <= 5)):
+			s = "{:6} {:<6} {:<7} {:<8} {:<6}\n"
+			f = open("result.txt", 'a')
+			f.write(s.format(str(turn), str(population['normal']), str(population['doctor']), str(population['patient']), format(ratio, '.2f')))
+			f.close()
+			#Label(window, text="Restart!!!", bg = 'Red', fg='white', font=('Arial', 14), width=15, height=2).place(x=1550,y=300)
+			#time.sleep(5)
+			#init()
+
 		printInfo(world)
 		showWorld(world)
 		canvas.pack()
@@ -39,7 +49,7 @@ def printInfo(world):
 			if( color != 'green'):
 				change = True
 				color = 'green'
-		elif(ratio > 7.0 and ratio <= 15.0):
+		elif(ratio > 9.0 and ratio <= 13.0):
 			if( color != 'yellow'):
 				change = True
 				color = 'yellow'
