@@ -24,6 +24,7 @@ def main():
 			#restart = Label(window, text="Restart!!!", bg = 'Red', fg='white', font=('Arial', 14), width=15, height=2).place(x=1550,y=300)
 			#time.sleep(5)
 			#init()
+			exit
 
 		printInfo(world)
 		showWorld(world)
