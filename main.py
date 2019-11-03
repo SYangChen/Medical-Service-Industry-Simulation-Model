@@ -46,11 +46,11 @@ def printInfo(world):
 	change = False
 	if(population['doctor'] != 0):
 		ratio = population['patient'] / population['doctor']
-		if(ratio <= 7.0):
+		if(ratio <= 9.0):
 			if( color != 'green'):
 				change = True
 				color = 'green'
-		elif(ratio > 9.0 and ratio <= 13.0):
+		elif(ratio > 9.0 and ratio <= 17.0):
 			if( color != 'yellow'):
 				change = True
 				color = 'yellow'

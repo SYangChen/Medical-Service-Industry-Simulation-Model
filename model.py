@@ -6,7 +6,7 @@ def generate(world, turn):
 	global wolrd_cvs
 
 	### randomly generate patient ###
-	num_Patient = random.randint(10,15)
+	num_Patient = random.randint(15,25)
 	patient_cntr = 0
 	while(patient_cntr < num_Patient):
 		x = random.randint(0, Hnum-1)
