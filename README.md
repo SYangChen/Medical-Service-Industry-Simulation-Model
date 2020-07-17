@@ -14,31 +14,6 @@ RED：Dangerous
 
 <img src="./img/simulation_03.JPG">
 
-### Install
-
-```
-$ sudo apt-get install python3
-$ sudo apt-get install python3-tk
-```
-
-### Environment
-Ubuntu 18.04
-
-### Run
-```
-$ python3 main.py
-```
-When main.py exiting, it will add information about medical statistic into result.txt
-
-
-### Complement
-
-Running main.py when program crash (Def: When CPU usage is 100%), it will restart
-```
-./autorun
-```
-
-
 
 ### Project Design
 
@@ -77,7 +52,29 @@ Running main.py when program crash (Def: When CPU usage is 100%), it will restar
 * Controller 負責請求控制及訊號控制
   * 負責按鈕的加速及減速控制。
 
+### Install
 
+```
+$ sudo apt-get install python3
+$ sudo apt-get install python3-tk
+```
+
+### Environment
+Ubuntu 18.04
+
+### Run
+```
+$ python3 main.py
+```
+When main.py exiting, it will add information about medical statistic into result.txt
+
+
+### Complement
+
+Running main.py when program crash (Def: When CPU usage is 100%), it will restart
+```
+./autorun
+```
 
 
 
