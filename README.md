@@ -1,5 +1,9 @@
 # Medical Service Industry Simulation Model
 
+### Author
+* 陳縵欣(Github: SophieXin9636)：程式撰寫與規則設計、架構設計、議題包裝、書面報告
+* 陳少洋(Github: SYangChen)：主題構想與規則設計、協助改善專案、書面報告
+
 ### Simulation
 
 Green: Peaceful
